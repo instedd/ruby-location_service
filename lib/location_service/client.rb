@@ -15,11 +15,11 @@ module LocationService
     end
 
     def details(ids, opts={})
-      get '/details', opts.merge(id: ids)
+      get '/details', opts.merge(id: ids.join(","))
     end
 
     def children(id, opts={})
-      get '/details', opts.merge(id: id)
+      get '/children', opts.merge(id: id)
     end
 
     def suggest(name, opts={})
@@ -30,9 +30,11 @@ module LocationService
 
     def get path, opts
       check_opts!(opts) if config.strict_params
-      opts.merge(set: set) if config.set && !opts[:set]
+      opts.merge!(set: config.set) if config.set && !opts[:set]
+      uri = URI.join(@config.url, path).to_s
 
-      RestClient.get URI.join(@config.url, path).to_s, opts
+      config.logger.debug "Requesting #{uri} with #{opts}"
+      JSON.parse RestClient.get(uri, params: opts)
     end
 
     def check_opts!(opts)
