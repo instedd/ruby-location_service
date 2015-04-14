@@ -9,7 +9,7 @@ module LocationService
     attr_accessor :logger
 
     def initialize
-      self.logger = Logger.new(STDOUT)
+      self.logger = Logger.new('/dev/null')
     end
 
     def check_valid!

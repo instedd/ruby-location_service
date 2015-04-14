@@ -1,4 +1,4 @@
-class Location < Struct.new("Location", :id, :name, :type, :ancestor_ids, :ancestors, :level, :shape)
+class Location < Struct.new("Location", :id, :name, :type, :ancestor_ids, :level, :shape, :ancestors)
 
   def self.roots(opts={})
     as_locations client.children(nil, opts)
@@ -26,7 +26,7 @@ class Location < Struct.new("Location", :id, :name, :type, :ancestor_ids, :ances
 
 
   def children(opts={})
-    Location.children(self.id, opts)
+    self.class.children(self.id, opts)
   end
 
   def ancestor_ids
@@ -36,7 +36,10 @@ class Location < Struct.new("Location", :id, :name, :type, :ancestor_ids, :ances
 
   def self.as_location(args)
     return nil if args.nil?
-    new *(%W(id name type ancestorsIds ancestors level shape).map{|key| args[key]})
+
+    location = new *(%W(id name type ancestorsIds level shape).map{|key| args[key]})
+    location.ancestors = as_locations(args['ancestors']) if args['ancestors']
+    return location
   end
 
   def self.as_locations(args_array)
