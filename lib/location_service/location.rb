@@ -25,6 +25,10 @@ class Location < Struct.new("Location", :id, :name, :type, :ancestor_ids, :level
   end
 
 
+  def ancestors(opts={})
+    @ancestors ||= self.class.details(self.ancestor_ids, opts)
+  end
+
   def children(opts={})
     self.class.children(self.id, opts)
   end

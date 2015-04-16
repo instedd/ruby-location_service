@@ -46,7 +46,7 @@ module LocationService
         locations.map do |orig|
           location = orig.clone
           location.shape = nil if !opts[:shapes]
-          location.ancestors = location.ancestor_ids.map{|aid| @repository.find(aid)} if opts[:ancestors]
+          location.ancestors = apply_opts(location.ancestor_ids.map{|aid| @repository.find(aid)}, opts.merge(ancestors: false)) if opts[:ancestors]
           location
         end
       end
