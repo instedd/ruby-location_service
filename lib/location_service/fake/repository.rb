@@ -20,10 +20,10 @@ module LocationService
 
       def make(args={})
         location = Location.new
-        location.id = args[:id] || "fake:#{@locations.size}"
-        location.name = args[:name] || "Location#{@locations.size}"
+        parent = args[:parent] || find(args[:parent_id])
 
-        parent = find(args[:parent_id])
+        location.id = args[:id] || fake_id(parent)
+        location.name = args[:name] || "Location #{location.id}"
         location.ancestor_ids = args[:ancestor_ids] || (parent ? (parent.ancestor_ids + [parent.id]) : [])
         location.level = args[:level] || (parent ? parent.level + 1 : 0)
         location.type = args[:type] || "Type #{location.level}"
@@ -36,6 +36,12 @@ module LocationService
       end
 
       private
+
+      def fake_id(parent)
+        parent_id = parent ? parent.id : nil
+        count = @locations.select{|l| l.ancestor_ids.last == parent_id}.size
+        parent ? "#{parent.id}.#{count}" : "fake:#{count}"
+      end
 
       def fake_shape
         nw, se = 2.times.map { [(rand(180)-90), (rand(360)-180)] }

@@ -11,7 +11,7 @@ end
 
 RSpec.configure do |config|
   config.after(:each) do
-    LocationService.repository = nil
+    LocationService.reload!
   end
 end
 

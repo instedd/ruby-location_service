@@ -28,8 +28,15 @@ module LocationService
     @repository
   end
 
-  def self.repository=(value)
-    @repository = value
+  def self.fake!
+    @repository = LocationService::Fake::Repository.new
+    config.set = nil
+    Location.client = self.client
+  end
+
+  def self.reload!
+    @repository = nil
+    Location.client = nil
   end
 
 end
