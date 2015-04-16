@@ -9,3 +9,9 @@ VCR.configure do |c|
   c.default_cassette_options = { :record => :none, :match_requests_on => [:path, :query] }
 end
 
+RSpec.configure do |config|
+  config.after(:each) do
+    LocationService.repository = nil
+  end
+end
+
