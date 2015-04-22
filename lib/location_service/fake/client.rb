@@ -34,6 +34,10 @@ module LocationService
         end
       end
 
+      def list(opts={})
+        filter_locations(opts) { |location| true }
+      end
+
       private
 
       def filter_locations(opts, &block)

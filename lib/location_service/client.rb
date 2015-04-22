@@ -26,6 +26,10 @@ module LocationService
       get '/suggest', opts.merge(name: name)
     end
 
+    def list(opts={})
+      get '/list', opts
+    end
+
     private
 
     def get path, opts
