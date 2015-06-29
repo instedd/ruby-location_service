@@ -40,7 +40,7 @@ module LocationService
       def fake_id(parent)
         parent_id = parent ? parent.id : nil
         count = @locations.select{|l| l.ancestor_ids.last == parent_id}.size
-        parent ? "#{parent.id}.#{count}" : "fake:#{count}"
+        parent ? "#{parent.id}_#{count}" : "fake_#{count}"
       end
 
       def fake_shape
