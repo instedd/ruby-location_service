@@ -1,7 +1,7 @@
 class Location < Struct.new("Location", :id, :name, :type, :ancestor_ids, :level, :shape, :lat, :lng, :set, :ancestors)
 
   def self.roots(opts={})
-    as_locations client.children(nil, opts)
+    as_locations client.children("", opts)
   end
 
   def self.find(id, opts={})
