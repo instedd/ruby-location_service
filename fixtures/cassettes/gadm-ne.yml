@@ -30,11 +30,11 @@ http_interactions:
       encoding: UTF-8
       string: |
         [{"id":"gadm:USA_6","name":"Colorado","type":"State","ancestorsIds":["gadm:USA"],"level":1},{"id":"gadm:USA_7","name":"Connecticut","type":"State","ancestorsIds":["gadm:USA"],"level":1},{"id":"gadm:USA_8","name":"Delaware","type":"State","ancestorsIds":["gadm:USA"],"level":1},{"id":"gadm:USA_9","name":"District of Columbia","type":"Federal District","ancestorsIds":["gadm:USA"],"level":1}]
-    http_version: 
+    http_version:
   recorded_at: Tue, 14 Apr 2015 20:13:46 GMT
 - request:
     method: get
-    uri: http://localhost:8080/children?id=&set=gadm
+    uri: http://localhost:8080/children?id&set=gadm
     body:
       encoding: US-ASCII
       string: ''
