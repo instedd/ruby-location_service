@@ -15,34 +15,34 @@ describe LocationService::Fake::Client do
   end
 
   it "should return details for several ids" do
-    client.details(['gadm:1', 'gadm:1.1']).map(&:name).should eq(["USA", "California"])
+    expect(client.details(['gadm:1', 'gadm:1.1']).map(&:name)).to eq(["USA", "California"])
   end
 
   it "should return children" do
-    client.children('gadm:1').map(&:name).should =~ ["Texas", "California"]
+    expect(client.children('gadm:1').map(&:name)).to match(["California", "Texas"])
   end
 
   it "should suggest based on name" do
-    client.suggest('San').map(&:name).should =~ ["San Jose"]
+    expect(client.suggest('San').map(&:name)).to match(["San Jose"])
   end
 
   it "should provide ancestors" do
     child = client.details(['gadm:1.1.1'], ancestors: true).first
-    child.ancestor_ids.should eq(['gadm:1', 'gadm:1.1'])
-    child.ancestors.map(&:name).should eq(['USA', "California"])
+    expect(child.ancestor_ids).to eq(['gadm:1', 'gadm:1.1'])
+    expect(child.ancestors.map(&:name)).to eq(['USA', "California"])
   end
 
   it "should provide empty ancestors collection" do
     child = client.details(['gadm:1'], ancestors: true).first
-    child.ancestor_ids.should eq([])
-    child.ancestors.should eq([])
+    expect(child.ancestor_ids).to eq([])
+    expect(child.ancestors).to eq([])
   end
 
   it "should return shape if requested" do
-    client.details(['gadm:1.1'], shapes: true).first.shape.should_not be_nil
+    expect(client.details(['gadm:1.1'], shapes: true).first.shape).to_not be_nil
   end
 
   it "should not return shape if not requested" do
-    client.details(['gadm:1']).first.shape.should be_nil
+    expect(client.details(['gadm:1']).first.shape).to be_nil
   end
 end
